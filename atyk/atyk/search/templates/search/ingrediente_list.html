@@ -1,0 +1,19 @@
+{% extends "basic_generic.html" %}
+
+{% block content %}
+    <h1>Book List</h1>
+
+    {% if ingrediente_list %}
+    <ul>
+
+      {% for ingrediente in ingrediente_list %}
+      <li>
+        <a href="{{ ingrediente.get_absolute_url }}">{{ ingrediente.nombre }}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}       
+{% endblock %}
