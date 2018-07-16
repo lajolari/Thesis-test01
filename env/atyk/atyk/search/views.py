@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import TipoReceta, Receta, Ingrediente, RecipeStep, Unit, IngredientQuantity
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     """
@@ -24,5 +25,13 @@ class IngredienteListView(generic.ListView):
 class RecetaListView(generic.ListView):
     model = Receta
 
-# class IngredienteListDetail(generic.ListView):
+class AddRecetasView(LoginRequiredMixin,generic.ListView):
+    """
+    Generic class-based view listing books on loan to current user. 
+    """
+    model = Receta
+    template_name ='search/addrecetas.html'
+    paginate_by = 10
     
+    def get_queryset(self):
+        return Receta.objects.filter(nombre=self.request.user)   

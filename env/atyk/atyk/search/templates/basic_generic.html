@@ -5,9 +5,17 @@
   {% block title %}<title>ATYK</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="/static/assets/css/styles.min.css">
+  <script src="/static/assets/js/jquery.min.js"></script>
+  <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/static/assets/js/script.min.js"></script>
+     <!-- — vue.js files -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
   
   <!-- Add additional CSS in static file -->
   {% load static %}
@@ -15,20 +23,24 @@
 </head>
 
 <body>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a href="#">Seleccione una Categoría</a></li>
+                <li> <a href="/search">Buscador</a></li>
+                <li> <a href="#">Ingredientes</a></li>
+                {% if user.is_authenticated %}
+                  <li>User: {{ user.get_username }}</li>
+                  <li><a href="{% url 'addrecetas' %}">Agregar Recetas</a></li>
+                  <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+                {% else %}
+                  <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+                {% endif %} 
+            </ul>
 
-  <div class="container-fluid">
+        </div>
 
-    <div class="row">
-      <div class="col-sm-2">
-      {% block sidebar %}
-      <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'ingredientes' %}">Ingredientes</a></li>
-          <li><a href="{% url 'recetas' %}">Recetas</a></li>
-      </ul>
-     {% endblock %}
-      </div>
-      <div class="col-sm-10 ">
+      <div class="page-content-wrapper">
       {% block content %}{% endblock %}
       </div>
     </div>

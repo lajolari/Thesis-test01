@@ -30,6 +30,7 @@ class Receta(models.Model):
 
     metodo_coccion = models.CharField(max_length=50, help_text="Ingrese un metodo de coccion para la receta principal")
 
+
     def __str__(self):
         """
         Cadena que representara la instancia de este modelo
@@ -130,3 +131,4 @@ class IngredientQuantity(models.Model):
         Cadena que representara la instancia de este modelo
         """
         return self.measure
+

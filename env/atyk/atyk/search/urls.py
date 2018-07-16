@@ -8,3 +8,6 @@ urlpatterns = [
     url(r'^recetas/$', views.RecetaListView.as_view(), name='recetas'),
     
 ]
+urlpatterns += [   
+    url(r'^addrecetas/$', views.AddRecetasView.as_view(), name='addrecetas'),
+]
