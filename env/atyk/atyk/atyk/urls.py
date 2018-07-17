@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from .routers import router
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('addreceta', TemplateView.as_view(template_name='addrecetas.html')),
 ]
 urlpatterns += [
     path('search/', include('search.urls')),

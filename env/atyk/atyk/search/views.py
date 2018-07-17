@@ -35,3 +35,7 @@ class AddRecetasView(LoginRequiredMixin,generic.ListView):
     
     def get_queryset(self):
         return Receta.objects.filter(nombre=self.request.user)   
+
+class RecetaDetailView(generic.DetailView):
+    model = Receta
+    template_name = 'search/receta_detalle.html'

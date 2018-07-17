@@ -1,0 +1,12 @@
+{% extends "basic_generic.html" %}
+
+{% block content %}
+  <h1>Nombre: {{ receta.nombre }}</h1>
+
+  <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
+  <p><strong>Preparacion:</strong> {{ receta.preparacion }}</p> 
+  <p><strong>Tiempo de Preparacion:</strong> {{ receta.tiempo_preparacion }}</p>  
+  <p><strong>Metodo de Coccion:</strong> {{ receta.metodo_coccion }}</p>  
+
+
+{% endblock %}

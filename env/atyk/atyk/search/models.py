@@ -17,14 +17,15 @@ class Receta(models.Model):
     """
     Modelo que representara las Recetas en el sistema
     """
-    
+    # id = models.AutoField(primary_key=True, default=1, help_text="ID único para esta receta particular en toda la biblioteca")
+
     nombre = models.CharField(max_length=50, help_text="Ingrese el nombre de un ingrediente (ejemplo: papa, nata, batata)")
 
-    ingredientes = models.ForeignKey('Ingrediente', on_delete=models.SET_NULL, null=True) 
+    ingredientes = models.TextField(max_length=1000) 
 
     preparacion = models.TextField(max_length=1000, help_text="Ingrese la preparacion")
 
-    tipo = models.ManyToManyField(TipoReceta, help_text="Seleccione un tipo de receta")
+    # tipo = models.ManyToManyField(TipoReceta, help_text="Seleccione un tipo de receta")
 
     tiempo_preparacion = models.CharField(max_length=50, help_text="Ingrese el tiempo de preparacion promedio")
 
@@ -35,13 +36,13 @@ class Receta(models.Model):
         """
         Cadena que representara la instancia de este modelo
         """
-        return self.nombre    
+        return self.nombre   
     
-    # def get_absolute_url(self):
-    #     """
-    #     Devuelve el URL a una instancia particular de Receta
-    #     """
-    #     return reverse('detalle-receta', args=[str(self.id)])
+    def get_absolute_url(self):
+        """
+        Devuelve el URL a una instancia particular de Receta
+        """
+        return reverse('detalle-receta', args=[str(self.id)])
 
 class Ingrediente(models.Model):
     """

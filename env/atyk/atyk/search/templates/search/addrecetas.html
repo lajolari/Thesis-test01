@@ -1,7 +1,269 @@
 {% extends "basic_generic.html" %}
 
 {% block content %}
-    <h1>Agregar Recetas</h1>
+<div id="starting">
+    <div class="container">
+      <div class="row">
+        <h1>Agregar Recetas
+        <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRecetaModal">Agregar Receta</button>
+        </h1>
+        &emsp;
+        <div class="form-inline my-2 my-lg-0" style="margin-left: 40%;">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getRecetas()">Buscar</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Ingredientes</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="receta in recetas">
+              <th scope="col">${receta.id}</th>
+              <td scope="col">${receta.nombre}</td>
+              <td scope="col">${receta.ingredientes}</td>
+              <td>
+                <button class="btn btn-info" v-on:click="getReceta(receta.id)">Edit</button>
+                <button class="btn btn-danger" v-on:click="deleteReceta(receta.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Add Article Modal -->
+        <div class="modal fade" id="addRecetaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Agregar Receta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form v-on:submit.prevent="addReceta()">
+              <div class="modal-body">
+                  <div class="form-group">
+                    <label for="nombre">Nombre de la Receta</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nombre"
+                      placeholder="Nombre de la Receta"
+                      v-model="newReceta.nombre"
+                      required="required" >
+                  </div>
+                  <div class="form-group">
+                    <label for="ingredientes">Ingredientes</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ingredientes"
+                      placeholder="Ingrediente"
+                      v-model="newReceta.ingredientes"
+                      required="required">
+                  </div>
+                  <div class="form-group">
+                    <label for="preparacion">Preparacion</label>
+                    <textarea
+                      class="form-control"
+                      id="preparacion"
+                      placeholder="Preparacion..."
+                      v-model="newReceta.preparacion"
+                      required="required"
+                      rows="3"></textarea>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label for="tipo">Categoria</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tipo"
+                      placeholder="Desayuno, Almuerzo, Etc..."
+                      v-model="newReceta.tipo"
+                      required="required">
+                  </div> -->
+                  <div class="form-group">
+                    <label for="tiempo_preparacion">Tiempo de Preparacion</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tiempo_preparacion"
+                      placeholder="[X] minutos, horas, etc..."
+                      v-model="newReceta.tiempo_preparacion"
+                      required="required">
+                  </div>
+                  <div class="form-group">
+                    <label for="metodo_coccion">Metodo de Coccion</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="metodo_coccion"
+                      placeholder="Hervor, Plancha, Vapor, etc..."
+                      v-model="newReceta.metodo_coccion"
+                      required="required">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+          <div class="loading" v-if="loading===true">Loading&#8230;</div>
+        </div>
+        <!-- End of add article modal -->
+        <!-- Edit Article Modal -->
+        <div class="modal fade" id="editRecetaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar Receta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form v-on:submit.prevent="updateReceta()">
+              <div class="modal-body">
+                  <div class="form-group">
+                    <label for="receta_heading">Nombre de la Receta</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="receta_heading"
+                      placeholder="Ingrese nombre de la receta"
+                      v-model="currentReceta.receta_heading"
+                      required="required" >
+                  </div>
+                  <div class="form-group">
+                    <label for="receta_body">Preparacion</label>
+                    <textarea
+                      class="form-control"
+                      id="receta_body"
+                      placeholder="Enter Receta Body"
+                      v-model="currentReceta.receta_body"
+                      required="required"
+                      rows="3"></textarea>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+          <div class="loading" v-if="loading===true">Loading&#8230;</div>
+        </div>
+        <!-- End of edit article modal -->
+
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>
+
+  </div>
+
+<!-- bootrtap js files -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+
+<!-- vue.js files -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+<script type="text/javascript">
+  Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+  new Vue({
+    el: '#starting',
+    delimiters: ['${','}'],
+    data: {
+      recetas: [],
+      loading: true,
+      currentReceta: {},
+      message: null,
+      newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
+      
+      search_term: '',
+    },
+    mounted: function() {
+      this.getRecetas();
+    },
+    methods: {
+      getRecetas: function() {
+        let api_url = '/api/addreceta/';
+        if(this.search_term!==''||this.search_term!==null) {
+          api_url = `/api/addreceta/?search=${this.search_term}`
+        }
+        this.loading = true;
+        this.$http.get(api_url)
+            .then((response) => {
+              this.recetas = response.data;
+              this.loading = false;
+            })
+            .catch((err) => {
+              this.loading = false;
+              console.log(err);
+            })
+      },
+      getReceta: function(id) {
+        this.loading = true;
+        this.$http.get(`/api/addreceta/${id}/`)
+            .then((response) => {
+              this.currentReceta = response.data;
+              $("#editRecetaModal").modal('show');
+              this.loading = false;
+            })
+            .catch((err) => {
+              this.loading = false;
+              console.log(err);
+            })
+      },
+      addReceta: function() {
+        this.loading = true;
+        
+        this.$http.post('/api/addreceta/',this.newReceta)
+            .then((response) => {
+              
+              this.loading = true;
+              
+              this.getRecetas();
+            })
+            .catch((err) => {
+              this.loading = true;
+              console.log(err);
+            })
+      },
+      updateReceta: function() {
+        this.loading = true;
+        this.$http.put(`/api/addreceta/${this.currentReceta.id}/`, this.currentReceta)
+            .then((response) => {
+              this.loading = false;
+              this.currentReceta = response.data;
+              this.getRecetas();
+            })
+            .catch((err) => {
+              this.loading = false;
+              console.log(err);
+            })
+      },
+      deleteReceta: function(id) {
+        this.loading = true;
+        this.$http.delete(`/api/addreceta/${id}/`)
+            .then((response) => {
+              this.loading = false;
+              this.getRecetas();
+            })
+            .catch((err) => {
+              this.loading = false;
+              console.log(err);
+            })
+      }
+    }
+  });
+</script>    
 
     
 {% endblock %}

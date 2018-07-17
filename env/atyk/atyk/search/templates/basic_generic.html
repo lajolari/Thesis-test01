@@ -27,8 +27,8 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand"> <a href="#">Seleccione una Categoría</a></li>
-                <li> <a href="/search">Buscador</a></li>
-                <li> <a href="#">Ingredientes</a></li>
+                <li> <a href="{% url 'index' %}">Buscador</a></li>
+                <li> <a href="{% url 'recetas' %}">Recetas</a></li>
                 {% if user.is_authenticated %}
                   <li>User: {{ user.get_username }}</li>
                   <li><a href="{% url 'addrecetas' %}">Agregar Recetas</a></li>
