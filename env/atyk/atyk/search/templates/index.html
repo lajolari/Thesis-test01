@@ -1,7 +1,7 @@
 {% extends "basic_generic.html" %}
 {% block content %}
     
-            <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+            <div class="container-fluid"  id="starting"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
                 <div class="row">
                     <div class="col-md-12">
                         <div>
@@ -10,11 +10,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="addcoroto">
                     <div class="col-md-12 col-lg-4"> <!-- buscar el codigo del contador en PU-->
                         <div>
-                            <h2>Buscar Ingredientes</h2><input type="search"></div>
+                            <ul>
+                                <li v-for="chichi in chichis" style="list-style: none">
+                                    ${chichi.ingrd}
+                                </li>
+                            </ul>
+                            <hr>
+                            <input v-model="input.ingrd" />
+                            <a class="btn" href="javascript:void(0)" @click="addNewUser">Agregar Ingrediente</a>
+                              
                         </div>
+                        
+                    </div>
+                    
                     <div class="col-lg-4">
                         <div>
                             <h1>Condiciones</h1>
@@ -33,7 +44,7 @@
                     <div class="col-lg-4"><button class="btn btn-primary" type="button" style="width:100%;height:100%;">Buscar</button></div>
                     <div class="col-lg-4"></div>
                 </div>
-                <div class="row" id="starting">
+                <div class="row">
                     <div class="col">
                         <h1>Recetas Sugeridas</h1>
                         <div class="table-responsive">
@@ -72,37 +83,49 @@
     el: '#starting',
     delimiters: ['${','}'],
     data: {
-      recetas: [],
-      loading: true,
-      currentReceta: {},
-      message: null,
-      newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
-      
-      search_term: '',
+        recetas: [],
+        loading: true,
+        currentReceta: {},
+        message: null,
+        newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
+        rows: [],
+        search_term: '',
+        chichis: [],
+        count: '',
+        input: {
+            ingrd: '',
+            cant: 0
+        }
     },
-    mounted: function() {
+    created: function() {
       this.getRecetas();
     },
     methods: {
-      getRecetas: function() {
-        let api_url = '/api/addreceta/';
-        if(this.search_term!==''||this.search_term!==null) {
-          api_url = `/api/addreceta/?search=${this.search_term}`
+        addNewUser() {
+            this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
+            this.input.ingrd = "";
+            this.count += 1
+            console.log(this.chichis)
+        },
+        getRecetas: function() {
+            let api_url = '/api/addreceta/';
+            if(this.search_term!==''||this.search_term!==null) {
+                api_url = `/api/addreceta/?search=${this.search_term}`
+            }
+            this.loading = true;
+            this.$http.get(api_url)
+                .then((response) => {
+                this.recetas = response.data;
+                this.loading = false;
+                })
+                .catch((err) => {
+                this.loading = false;
+                console.log(err);
+                })
         }
-        this.loading = true;
-        this.$http.get(api_url)
-            .then((response) => {
-              this.recetas = response.data;
-              this.loading = false;
-            })
-            .catch((err) => {
-              this.loading = false;
-              console.log(err);
-            })
-      }
     }
   });
-</script>  
+</script> 
 
 {% endblock %}
 

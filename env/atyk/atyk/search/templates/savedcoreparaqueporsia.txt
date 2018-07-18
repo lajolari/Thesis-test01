@@ -1,0 +1,128 @@
+{% extends "basic_generic.html" %}
+{% block content %}
+    
+            <div class="container-fluid"  id="starting"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1>Ask To Your Kitchen</h1>
+                            <p>Buscador de Recetas con un toque distinto.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="addcoroto">
+                    <div class="col-md-12 col-lg-4"> <!-- buscar el codigo del contador en PU-->
+                        <div>
+                            <ul >
+                              <li v-for="chichi in chichis">
+                                ${chichi.ingrd} ${chichi.cant}
+                                </li>
+                            </ul>
+                            <hr>
+                            <input v-model="input.ingrd" />
+                            <input v-model="input.cant" />
+                            <a class="btn" href="javascript:void(0)" @click="addNewUser">Add User</a>
+                              
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div>
+                            <h1>Condiciones</h1>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Celiaco</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Intolerante a la Lactosa</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Alergia a las Nueces</label></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div>
+                            <h1>Categoría</h1><select><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4"><button class="btn btn-primary" type="button" style="width:100%;height:100%;">Buscar</button></div>
+                    <div class="col-lg-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>Recetas Sugeridas</h1>
+                        <div class="table-responsive">
+                            <div class="form-inline my-2 my-lg-0" style="margin-left: 40%;">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getRecetas()">Buscar</button>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Ingredientes</th>
+                                    <th scope="col">Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr v-for="receta in recetas">
+                                    <th scope="col">${receta.id}</th>
+                                    <td scope="col">${receta.nombre}</td>
+                                    <td scope="col">${receta.ingredientes}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+<!-- vue.js files -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+<script type="text/javascript">
+  Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+  new Vue({
+    el: '#starting',
+    delimiters: ['${','}'],
+    data: {
+        recetas: [],
+        loading: true,
+        currentReceta: {},
+        message: null,
+        newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
+        rows: [],
+        search_term: '',
+        chichis: [],
+        input: {
+            ingrd: '',
+            cant: 0
+        }
+    },
+    created: function() {
+      this.getRecetas();
+    },
+    methods: {
+        addNewUser() {
+            this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
+        },
+        getRecetas: function() {
+            let api_url = '/api/addreceta/';
+            if(this.search_term!==''||this.search_term!==null) {
+            api_url = `/api/addreceta/?search=${this.search_term}`
+            }
+            this.loading = true;
+            this.$http.get(api_url)
+                .then((response) => {
+                this.recetas = response.data;
+                this.loading = false;
+                })
+                .catch((err) => {
+                this.loading = false;
+                console.log(err);
+                })
+        }
+    }
+  });
+</script> 
+
+{% endblock %}
+
