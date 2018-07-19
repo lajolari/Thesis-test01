@@ -57,12 +57,19 @@
                   </div>
                   <div class="form-group">
                     <label for="ingredientes">Ingredientes</label>
-                    <input
+                    <input 
                       type="text"
                       class="form-control"
                       id="ingredientes"
                       placeholder="Ingrediente"
-                      v-model="newReceta.ingredientes"
+                      v-model="input.ingrd"
+                      required="required">
+                      <input 
+                      type="text"
+                      class="form-control"
+                      id="cantidadingr"
+                      placeholder="Ingrediente"
+                      v-model="input.cant"
                       required="required">
                   </div>
                   <div class="form-group">
@@ -184,14 +191,25 @@
       loading: true,
       currentReceta: {},
       message: null,
-      newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
-      
+      newReceta: { nombre: '', ingredientes: {}, preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
       search_term: '',
+      chichis: [],
+      input: {
+          ingrd: '',
+          cant: 0
+      }
     },
     mounted: function() {
       this.getRecetas();
     },
     methods: {
+      addNewUser() {
+          // this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
+          console.log(this.newReceta);
+          console.log(this.input);
+
+          this.newReceta.ingredientes = this.input;
+      },
       getRecetas: function() {
         let api_url = '/api/addreceta/';
         if(this.search_term!==''||this.search_term!==null) {
@@ -210,7 +228,7 @@
       },
       getReceta: function(id) {
         this.loading = true;
-        this.$http.get(`/api/addreceta/${id}/`)
+        this.$http.get('/api/addreceta/${id}/')
             .then((response) => {
               this.currentReceta = response.data;
               $("#editRecetaModal").modal('show');
@@ -223,7 +241,7 @@
       },
       addReceta: function() {
         this.loading = true;
-        
+        this.addNewUser();
         this.$http.post('/api/addreceta/',this.newReceta)
             .then((response) => {
               
