@@ -62,15 +62,9 @@
                       class="form-control"
                       id="ingredientes"
                       placeholder="Ingrediente"
-                      v-model="input.ingrd"
+                      v-model="newReceta.ingredientes"
                       required="required">
-                      <input 
-                      type="text"
-                      class="form-control"
-                      id="cantidadingr"
-                      placeholder="Ingrediente"
-                      v-model="input.cant"
-                      required="required">
+                      <!-- <a class="btn" href="javascript:void(0)" @click="addNewUser">Add User</a> -->
                   </div>
                   <div class="form-group">
                     <label for="preparacion">Preparacion</label>
@@ -191,25 +185,22 @@
       loading: true,
       currentReceta: {},
       message: null,
-      newReceta: { nombre: '', ingredientes: {}, preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
+      newReceta: { nombre: '', ingredientes: [] , preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
       search_term: '',
       chichis: [],
-      input: {
-          ingrd: '',
-          cant: 0
-      }
+      input: {ingrd: '', cant: 0}
     },
     mounted: function() {
       this.getRecetas();
     },
     methods: {
-      addNewUser() {
-          // this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
-          console.log(this.newReceta);
-          console.log(this.input);
+      // addNewUser() {
+      //     // this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
+      //     console.log(this.newReceta);
+      //     console.log(this.input);
 
-          this.newReceta.ingredientes = this.input;
-      },
+      //     this.newReceta.ingredientes = this.input;
+      // },
       getRecetas: function() {
         let api_url = '/api/addreceta/';
         if(this.search_term!==''||this.search_term!==null) {
@@ -241,7 +232,7 @@
       },
       addReceta: function() {
         this.loading = true;
-        this.addNewUser();
+        // this.addNewUser();
         this.$http.post('/api/addreceta/',this.newReceta)
             .then((response) => {
               
