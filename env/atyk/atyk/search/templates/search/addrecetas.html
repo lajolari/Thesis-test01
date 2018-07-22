@@ -57,14 +57,13 @@
                   </div>
                   <div class="form-group">
                     <label for="ingredientes">Ingredientes</label>
-                    <input 
+                    <input
                       type="text"
                       class="form-control"
                       id="ingredientes"
                       placeholder="Ingrediente"
                       v-model="newReceta.ingredientes"
                       required="required">
-                      <!-- <a class="btn" href="javascript:void(0)" @click="addNewUser">Add User</a> -->
                   </div>
                   <div class="form-group">
                     <label for="preparacion">Preparacion</label>
@@ -185,22 +184,22 @@
       loading: true,
       currentReceta: {},
       message: null,
-      newReceta: { nombre: '', ingredientes: [] , preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
+      newReceta: { nombre: '', ingredientes: '' , preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
       search_term: '',
-      chichis: [],
-      input: {ingrd: '', cant: 0}
+      // chichis: [],
+      // input: {ingrd: ''}
     },
     mounted: function() {
       this.getRecetas();
     },
     methods: {
       // addNewUser() {
-      //     // this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
-      //     console.log(this.newReceta);
+      //   console.log(this.newReceta);
       //     console.log(this.input);
 
       //     this.newReceta.ingredientes = this.input;
       // },
+      
       getRecetas: function() {
         let api_url = '/api/addreceta/';
         if(this.search_term!==''||this.search_term!==null) {
@@ -211,12 +210,17 @@
             .then((response) => {
               this.recetas = response.data;
               this.loading = false;
+              for (let i = 0; i < this.recetas.length; i++) {
+                console.log(typeof(this.recetas[i].ingredientes));
+                
+              }             
             })
             .catch((err) => {
               this.loading = false;
               console.log(err);
             })
       },
+      
       getReceta: function(id) {
         this.loading = true;
         this.$http.get('/api/addreceta/${id}/')
@@ -230,12 +234,15 @@
               console.log(err);
             })
       },
-      addReceta: function() {
+        addReceta: function() {
+        
         this.loading = true;
         // this.addNewUser();
+        // var item;
+        // item = this.input.ingrd
         this.$http.post('/api/addreceta/',this.newReceta)
             .then((response) => {
-              
+              // console.log(item)
               this.loading = true;
               
               this.getRecetas();
@@ -243,6 +250,7 @@
             .catch((err) => {
               this.loading = true;
               console.log(err);
+              // console.log(typeof(item));
             })
       },
       updateReceta: function() {

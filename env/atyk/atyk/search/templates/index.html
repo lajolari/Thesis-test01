@@ -13,15 +13,21 @@
                 <div class="row" id="addcoroto">
                     <div class="col-md-12 col-lg-4"> <!-- buscar el codigo del contador en PU-->
                         <div>
-                            <ul>
+                            <!-- <input v-model="input.ingrd" /> -->
+
+                            <input v-model="pared" type="text-area">
+                            <input id="lleva" type="hidden">                          
+
+                            <!-- <ul>
                                 <li v-for="chichi in chichis" style="list-style: none">
                                     ${chichi.ingrd}
+                                    
                                 </li>
-                            </ul>
+                            </ul> -->
                             <hr>
-                            <input v-model="input.ingrd" />
+                            <!-- <input v-model="input.ingrd" />
                             <a class="btn" href="javascript:void(0)" @click="addNewUser">Agregar Ingrediente</a>
-                              
+                             -->
                         </div>
                         
                     </div>
@@ -41,7 +47,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-4"></div>
-                    <div class="col-lg-4"><button class="btn btn-primary" type="button" style="width:100%;height:100%;">Buscar</button></div>
+                    <div class="col-lg-4"><button class="btn btn-primary" type="button" style="width:100%;height:100%;"  @click='mandarria()'>Buscar</button></div>
                     <div class="col-lg-4"></div>
                 </div>
                 <div class="row">
@@ -90,38 +96,55 @@
         newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
         rows: [],
         search_term: '',
-        chichis: [],
+        pared: '',
         count: '',
-        input: {
-            ingrd: '',
-            cant: 0
-        }
+        
     },
     created: function() {
       this.getRecetas();
     },
     methods: {
-        addNewUser() {
-            this.chichis.push({ ingrd: this.input.ingrd, cant: this.input.cant });
-            this.input.ingrd = "";
-            this.count += 1
-            console.log(this.chichis)
+        mandarria() {
+            document.getElementById("lleva").value = this.pared;
+            this.tumama = this.pared.split(", ", 20);
+            console.log("prueba esto: ", this.tumama.length);
+            console.log(this.tumama.sort());
+            this.getRecetas(this.tumama);
+
         },
-        getRecetas: function() {
-            let api_url = '/api/addreceta/';
-            if(this.search_term!==''||this.search_term!==null) {
-                api_url = `/api/addreceta/?search=${this.search_term}`
-            }
-            this.loading = true;
-            this.$http.get(api_url)
-                .then((response) => {
-                this.recetas = response.data;
-                this.loading = false;
-                })
-                .catch((err) => {
-                this.loading = false;
-                console.log(err);
-                })
+        getRecetas: function($cualquier) {
+            
+        let api_url = '/api/addreceta/';
+        if(this.search_term!==''||this.search_term!==null) {
+          api_url = `/api/addreceta/?search=${this.search_term}`
+        }
+        this.loading = true;
+        this.$http.get(api_url)
+            .then((response) => {
+              this.recetas = response.data;
+              this.loading = false;
+                          
+            })
+            .catch((err) => {
+              this.loading = false;
+              console.log(err);
+            })
+            
+            console.log($cualquier.sort());
+            
+            for (let i = 0; i < this.recetas.length; i++) {
+                this.otraopcion = this.recetas[i].ingredientes;
+                this.fuck = this.otraopcion.split(", ");
+                this.fucksorted = this.fuck.sort();
+                this.cualquiersorted = $cualquier.sort();
+                if (this.fuck.length == $cualquier.length) {
+                    for (let j = 0; j < this.fuck.length; j++) {
+                        if (this.fucksorted[j] == this.cualquiersorted[j]) {
+                            console.log(this.recetas[i].nombre)
+                        }
+                    }
+                }
+            } 
         }
     }
   });
