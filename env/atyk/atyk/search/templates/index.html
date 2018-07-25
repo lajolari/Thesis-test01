@@ -36,9 +36,9 @@
                     <div class="col-lg-4">
                         <div>
                             <h1>Condiciones</h1>
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Celiaco</label></div>
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Intolerante a la Lactosa</label></div>
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Alergia a las Nueces</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="Celiaco"><label class="form-check-label" for="Celiaco">Celiaco</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="ILactosa"><label class="form-check-label" for="ILactosa">Intolerante a la Lactosa</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="AlergicoN"><label class="form-check-label" for="AlergicoN">Alergia a las Nueces</label></div>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -55,7 +55,10 @@
                     <div class="col">
                         <h1>Te Ofrecemos Estas Recetas</h1>
                         <ul v-show="gotresultp == true">
-                            <a v-bind:href="'/search/receta/'+ fukingid"> ${recetaSelect}          
+                            <li v-for="chichi in chichis">
+                                <a v-bind:href="'/search/receta/'+ fukingid"> ${chichi}
+                            </li>
+                                      
                         </ul>
                         <h3 v-show="gotresultn == true">Lo sentimos, no hay recetas con los parametros ingresados</h3>
                     </div>
@@ -87,7 +90,10 @@
         gotresultn: false,
         fukingid: '',
         chichis: [],
-        counter: 0
+        counter: 0,
+        celiaco: 'trigo',
+        
+
     },
     created: function() {
       this.getRecetas();
@@ -144,14 +150,18 @@
                         this.recetaSelect = this.recetas[i].nombre;
                         this.fukingid = this.recetas[i].id;
                         this.gotresultp = true;
-                        console.log(this.recetaSelect)
+                        // 
                     }
                     // } else {
                     //     this.gotresultn = true;
                     //     console.log('BUUUUU :(')
                     // }
+                    this.chichis.push(this.recetas[i].nombre);
+                    console.log('identificador del for: ', i)
+                    console.log('nombre de la receta, puro', this.recetas[i].nombre)
+                    console.log('nombre de la receta, corto', this.recetaSelect)
                 } 
-                
+                // console.log(this.recetas[i].nombre)
                 
             } 
         }

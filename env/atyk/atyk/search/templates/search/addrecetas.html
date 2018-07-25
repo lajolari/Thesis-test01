@@ -117,36 +117,77 @@
         </div>
         <!-- End of add article modal -->
         <!-- Edit Article Modal -->
+        
         <div class="modal fade" id="editRecetaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Editar Receta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLongTitle2">Editar Receta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editRecetaModal">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <form v-on:submit.prevent="updateReceta()">
               <div class="modal-body">
-                  <div class="form-group">
-                    <label for="receta_heading">Nombre de la Receta</label>
+                 <div class="form-group">
+                    <label for="nombre">Nombre de la Receta</label>
                     <input
                       type="text"
                       class="form-control"
-                      id="receta_heading"
-                      placeholder="Ingrese nombre de la receta"
-                      v-model="currentReceta.receta_heading"
+                      id="nombre"
+                      placeholder="Nombre de la Receta"
+                      v-model="currentReceta.nombre"
                       required="required" >
                   </div>
                   <div class="form-group">
-                    <label for="receta_body">Preparacion</label>
+                    <label for="ingredientes">Ingredientes</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ingredientes"
+                      placeholder="Ingrediente"
+                      v-model="currentReceta.ingredientes"
+                      required="required">
+                  </div>
+                  <div class="form-group">
+                    <label for="preparacion">Preparacion</label>
                     <textarea
                       class="form-control"
-                      id="receta_body"
-                      placeholder="Enter Receta Body"
-                      v-model="currentReceta.receta_body"
+                      id="preparacion"
+                      placeholder="Preparacion..."
+                      v-model="currentReceta.preparacion"
                       required="required"
                       rows="3"></textarea>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label for="tipo">Categoria</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tipo"
+                      placeholder="Desayuno, Almuerzo, Etc..."
+                      v-model="currentReceta.tipo"
+                      required="required">
+                  </div> -->
+                  <div class="form-group">
+                    <label for="tiempo_preparacion">Tiempo de Preparacion</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tiempo_preparacion"
+                      placeholder="[X] minutos, horas, etc..."
+                      v-model="currentReceta.tiempo_preparacion"
+                      required="required">
+                  </div>
+                  <div class="form-group">
+                    <label for="metodo_coccion">Metodo de Coccion</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="metodo_coccion"
+                      placeholder="Hervor, Plancha, Vapor, etc..."
+                      v-model="currentReceta.metodo_coccion"
+                      required="required">
                   </div>
               </div>
               <div class="modal-footer">
@@ -182,7 +223,7 @@
     data: {
       recetas: [],
       loading: true,
-      currentReceta: {},
+      currentReceta: {nombre: '', ingredientes: '' , preparacion: '', tiempo_preparacion:'', metodo_coccion:''},
       message: null,
       newReceta: { nombre: '', ingredientes: '' , preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
       search_term: '',
@@ -254,7 +295,7 @@
               // console.log(typeof(item));
             })
       },
-      updateReceta: function() {
+      updateReceta: function(id) {
         this.loading = true;
         this.$http.put(`/api/addreceta/${this.currentReceta.id}/`, this.currentReceta)
             .then((response) => {
