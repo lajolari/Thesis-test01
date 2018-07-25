@@ -75,7 +75,7 @@
                       required="required"
                       rows="3"></textarea>
                   </div>
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label for="tipo">Categoria</label>
                     <input
                       type="text"
@@ -84,7 +84,7 @@
                       placeholder="Desayuno, Almuerzo, Etc..."
                       v-model="newReceta.tipo"
                       required="required">
-                  </div> -->
+                  </div>
                   <div class="form-group">
                     <label for="tiempo_preparacion">Tiempo de Preparacion</label>
                     <input
@@ -159,7 +159,7 @@
                       required="required"
                       rows="3"></textarea>
                   </div>
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label for="tipo">Categoria</label>
                     <input
                       type="text"
@@ -168,7 +168,7 @@
                       placeholder="Desayuno, Almuerzo, Etc..."
                       v-model="currentReceta.tipo"
                       required="required">
-                  </div> -->
+                  </div>
                   <div class="form-group">
                     <label for="tiempo_preparacion">Tiempo de Preparacion</label>
                     <input
@@ -223,9 +223,9 @@
     data: {
       recetas: [],
       loading: true,
-      currentReceta: {nombre: '', ingredientes: '' , preparacion: '', tiempo_preparacion:'', metodo_coccion:''},
+      currentReceta: {nombre: '', ingredientes: '' , preparacion: '', tipo: '', tiempo_preparacion:'', metodo_coccion:''},
       message: null,
-      newReceta: { nombre: '', ingredientes: '' , preparacion: '', tiempo_preparacion:'', metodo_coccion:'' },
+      newReceta: { nombre: '', ingredientes: '' , preparacion: '', tipo: '', tiempo_preparacion:'', metodo_coccion:'' },
       search_term: '',
       // chichis: [],
       // input: {ingrd: ''}

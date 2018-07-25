@@ -25,7 +25,7 @@ class Receta(models.Model):
 
     preparacion = models.TextField(max_length=1000, help_text="Ingrese la preparacion")
 
-    # tipo = models.ManyToManyField(TipoReceta, help_text="Seleccione un tipo de receta")
+    tipo = models.CharField(max_length=20, help_text="Ingrese un tipo de Receta", default='Desayuno' )
 
     tiempo_preparacion = models.CharField(max_length=50, help_text="Ingrese el tiempo de preparacion promedio")
 
