@@ -14,8 +14,8 @@
                     <div class="col-md-12 col-lg-4"> <!-- buscar el codigo del contador en PU-->
                         <div>
                             <!-- <input v-model="input.ingrd" /> -->
-
-                            <input v-model="pared" type="text-area">
+                            <h1>Ingredientes</h1>
+                            <input v-model="pared" type="text-area" @focus="showMessage()">
                             <input id="lleva" type="hidden">                          
 
                             <!-- <ul>
@@ -24,10 +24,11 @@
                                     
                                 </li>
                             </ul> -->
-                            <hr>
+                            
                             <!-- <input v-model="input.ingrd" />
                             <a class="btn" href="javascript:void(0)" @click="addNewUser">Agregar Ingrediente</a>
                              -->
+                             <p v-show="focus == true">Ingrese los ingredientes, separados por una coma ( , )</p>
                         </div>
                         
                     </div>
@@ -52,30 +53,11 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <h1>Recetas Sugeridas</h1>
-                        <div class="table-responsive">
-                            <div class="form-inline my-2 my-lg-0" style="margin-left: 40%;">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getRecetas()">Buscar</button>
-                            </div>
-                            <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Ingredientes</th>
-                                    <th scope="col">Acciones</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr v-for="receta in recetas">
-                                    <th scope="col">${receta.id}</th>
-                                    <td scope="col">${receta.nombre}</td>
-                                    <td scope="col">${receta.ingredientes}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                        </div>
+                        <h1>Te Ofrecemos Estas Recetas</h1>
+                        <ul v-show="gotresultp == true">
+                            <a v-bind:href="'/search/receta/'+ fukingid"> ${recetaSelect}          
+                        </ul>
+                        <h3 v-show="gotresultn == true">Lo sentimos, no hay recetas con los parametros ingresados</h3>
                     </div>
                 </div>
             </div>
@@ -84,6 +66,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
 <script type="text/javascript">
+  
   Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
   new Vue({
     el: '#starting',
@@ -98,22 +81,30 @@
         search_term: '',
         pared: '',
         count: '',
-        
+        focus: false,
+        recetaSelect: '',
+        gotresultp: false,
+        gotresultn: false,
+        fukingid: '',
+        chichis: [],
+        counter: 0
     },
     created: function() {
       this.getRecetas();
     },
     methods: {
+        showMessage() {
+            this.focus = true;
+        },
         mandarria() {
-            document.getElementById("lleva").value = this.pared;
-            this.tumama = this.pared.split(", ", 20);
-            console.log("prueba esto: ", this.tumama.length);
-            console.log(this.tumama.sort());
-            this.getRecetas(this.tumama);
+            document.getElementById("lleva").value = this.pared; //obtengo los valores del input "lleva"
+            this.tumama = this.pared.split(", ", 20); //divido el string "lleva" y lo guardo en tu mama
+            
+            this.getRecetas(this.tumama); //invoco a getrecetas con el parametro this.tumama
 
         },
-        getRecetas: function($cualquier) {
-            
+        getRecetas: function($cualquier) { //recibo el parametro this.tumama y lo rebautizo "$cualquier"
+    
         let api_url = '/api/addreceta/';
         if(this.search_term!==''||this.search_term!==null) {
           api_url = `/api/addreceta/?search=${this.search_term}`
@@ -123,27 +114,45 @@
             .then((response) => {
               this.recetas = response.data;
               this.loading = false;
-                          
+                
             })
             .catch((err) => {
               this.loading = false;
               console.log(err);
             })
             
-            console.log($cualquier.sort());
             
-            for (let i = 0; i < this.recetas.length; i++) {
-                this.otraopcion = this.recetas[i].ingredientes;
-                this.fuck = this.otraopcion.split(", ");
-                this.fucksorted = this.fuck.sort();
-                this.cualquiersorted = $cualquier.sort();
-                if (this.fuck.length == $cualquier.length) {
-                    for (let j = 0; j < this.fuck.length; j++) {
-                        if (this.fucksorted[j] == this.cualquiersorted[j]) {
-                            console.log(this.recetas[i].nombre)
-                        }
+            for (let i = 0; i < this.recetas.length; i++) { //conteo por cada receta
+                
+                this.otraopcion = this.recetas[i].ingredientes; //guardo en esta variable, el array de ingredientes en la primera posicion de recetas.
+
+                this.fuck = this.otraopcion.split(", "); //divide el array de ingredientes, separados por coma (,)
+
+                this.fucksorted = this.fuck.sort(); //ordena por orden alfabetico los elementos del array this.fuck
+
+                this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
+
+                if (this.fuck.length === $cualquier.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
+                    
+                    for (let j = 0; j < this.fucksorted.length; j++) { 
+                        
+                        if (this.fucksorted[j] === this.cualquiersorted[j]) {
+                           this.counter += 1;
+                        } 
                     }
-                }
+                    if (this.counter === this.fuck.length){
+                        this.recetaSelect = this.recetas[i].nombre;
+                        this.fukingid = this.recetas[i].id;
+                        this.gotresultp = true;
+                        console.log(this.recetaSelect)
+                    }
+                    // } else {
+                    //     this.gotresultn = true;
+                    //     console.log('BUUUUU :(')
+                    // }
+                } 
+                
+                
             } 
         }
     }
