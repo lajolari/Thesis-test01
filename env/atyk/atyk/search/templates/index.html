@@ -1,17 +1,9 @@
 {% extends "basic_generic.html" %}
 {% block content %}
-    
-            <div class="container-fluid"  id="starting"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <h1>Ask To Your Kitchen</h1>
-                            <p>Buscador de Recetas con un toque distinto.</p>
-                        </div>
-                    </div>
-                </div>
+<link rel="stylesheet" href="/static/assets/css/myown.css">
+            
                 <div class="row" id="addcoroto">
-                    <div class="col-md-12 col-lg-4"> <!-- buscar el codigo del contador en PU-->
+                    <div class="col-lg-4 maldito"> <!-- buscar el codigo del contador en PU-->
                         <div>
                             <!-- <input v-model="input.ingrd" /> -->
                             <h1>Ingredientes</h1>
@@ -33,7 +25,7 @@
                         
                     </div>
                     
-                    <div class="col-lg-4">
+                    <div class="col-lg-3 maldito">
                         <div>
                             <h1>Condiciones</h1>
                             <div class="form-check"><input class="form-check-input" type="checkbox" id="Celiaco"><label class="form-check-label" for="Celiaco">Celiaco</label></div>
@@ -41,18 +33,31 @@
                             <div class="form-check"><input class="form-check-input" type="checkbox" id="AlergicoN"><label class="form-check-label" for="AlergicoN">Alergia a las Nueces</label></div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 maldito">
                         <div>
-                            <h1>Categoría</h1><select><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select></div>
+                            <h1>Categoría</h1>
+                            <select>
+                                <optgroup label="Categorias">
+                                    <option value="Desayuno" selected="">Desayuno</option>
+                                    <option value="Almuerzo">Almuerzo</option>
+                                    <option value="Cena">Cena</option>
+                                    <option value="Postre">Postre</option>
+                                    <option value="Bebida">Bebida</option>
+                                    <option value="Snacks">Snacks</option>
+                                    <option value="Complemento">Complemento</option>
+                                    <option value="General">General</option>
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row hallomoto">
                     <div class="col-lg-4"></div>
-                    <div class="col-lg-4"><button class="btn btn-primary" type="button" style="width:100%;height:100%;"  @click='mandarria()'>Buscar</button></div>
+                    <div class="col-lg-4"><button class="btn btn-primary newvalues" type="button" style="width:100%;height:100%;"  @click='mandarria()'>Buscar</button></div>
                     <div class="col-lg-4"></div>
                 </div>
-                <div class="row">
-                    <div class="col">
+                <div class="row containerreceta">
+                    <div class="">
                         <h1>Te Ofrecemos Estas Recetas</h1>
                         <ul v-show="gotresultp == true">
                             <li v-for="chichi in chichis">
@@ -138,6 +143,7 @@
 
                 this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
 
+                               
                 if (this.fuck.length === $cualquier.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
                     
                     for (let j = 0; j < this.fucksorted.length; j++) { 
@@ -151,11 +157,11 @@
                         this.fukingid = this.recetas[i].id;
                         this.gotresultp = true;
                         // 
+                    
+                    } else {
+                        this.gotresultn = true;
+                        console.log('BUUUUU :(')
                     }
-                    // } else {
-                    //     this.gotresultn = true;
-                    //     console.log('BUUUUU :(')
-                    // }
                     this.chichis.push(this.recetas[i].nombre);
                     console.log('identificador del for: ', i)
                     console.log('nombre de la receta, puro', this.recetas[i].nombre)

@@ -1,6 +1,8 @@
 {% extends "basic_generic.html" %}
 
 {% block content %}
+
+<div class="containersito">
   <h1>Nombre: {{ receta.nombre }}</h1>
   <strong>Ingredientes:</strong>
   <p>{{ receta.ingredientes }}</p>
@@ -13,6 +15,7 @@
   <strong>Metodo de Coccion:</strong>
   <p>{{ receta.metodo_coccion }}</p>  
 
+</div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
   <script type="text/javascript">

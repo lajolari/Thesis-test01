@@ -1,33 +1,30 @@
 {% extends "basic_generic.html" %}
 
 {% block content %}
-<div id="starting">
+<div id="starting" class="containersito">
     <div class="container">
       <div class="row">
         <h1>Agregar Recetas
         <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRecetaModal">Agregar Receta</button>
         </h1>
         &emsp;
-        <div class="form-inline my-2 my-lg-0" style="margin-left: 40%;">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getRecetas()">Buscar</button>
-        </div>
+        
         <table class="table">
           <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Ingredientes</th>
-              <th scope="col">Acciones</th>
+            <tr class="tablita">
+              
+              <th class="cososdetablita" scope="col">Nombre</th>
+              <th class="cososdetablita" scope="col">Ingredientes</th>
+              <th class="cososdetablita" scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="receta in recetas">
-              <th scope="col">${receta.id}</th>
+              
               <td scope="col">${receta.nombre}</td>
               <td scope="col">${receta.ingredientes}</td>
               <td>
-                <button class="btn btn-info" v-on:click="getReceta(receta.id)">Edit</button>
+                <!-- <button class="btn btn-info" v-on:click="getReceta(receta.id)">Edit</button> -->
                 <button class="btn btn-danger" v-on:click="deleteReceta(receta.id)">Delete</button>
               </td>
             </tr>

@@ -50,31 +50,7 @@ class Ingrediente(models.Model):
     """
     nombre = models.CharField(max_length=50)
 
-    reino = models.CharField(max_length=20)
-
-    TIPO_ALIMENTO = (
-        ('p', 'Proteina'),
-        ('c', 'Carbohidrato'),
-        ('m', 'Mineral'),
-        ('g', 'Grano'),
-        ('ci', 'Citrico'),
-        ('d', 'Dulce'),
-        ('n', 'Neutro'),
-        ('l', 'Lacteo'),
-    )
-
-    propiedad_principal = models.CharField(max_length=20, choices=TIPO_ALIMENTO, help_text='Caracteristica del alimento') #Representa la propiedad principal: Si es Proteina, si es Carbohidrato, etc...
-
-    propiedad_secundaria = models.TextField(max_length=500) #Representa todas las propiedades secundarias
-
-    presentacion = models.CharField(max_length=50) #Representa su presentacion para la receta: Pure, crema, solido, liquido, granulado, etc...
-
-    subproducto = models.BooleanField(default=False) #Determina si es un subproducto o no, de ser True, crea un link a la sub-preparacion con sus respectivos ingredietnes y procedimientos (receta)
-    
-    excepciones = models.CharField(max_length=50, null=True, blank=True) #Excepciones para contrastar (tipo, no usar pure de  tomate en una torta (why not? podria funcionar *thinking*))
-
-    restricciones = models.CharField(max_length=40, null=True, blank=True) #Restricciones de uso, como "no apto para celiacos" and shizzzz...
-    #En algun momento, agregar informacion adicional para el usuario, como propiedades nutricionales, peso calorico, restricciones
+    sustituiblex = models.CharField(max_length=200)
 
     def __str__(self):
         """Cadena que representara la instancia de este modelo

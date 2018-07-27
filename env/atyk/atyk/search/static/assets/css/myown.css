@@ -1,0 +1,109 @@
+div.maldito{
+    box-shadow: 7px 9px 17px 2px rgba(239, 166, 29, 0.52);
+    border: 2px solid black;
+    border-radius: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #ffffffb5;
+}
+div.row.hallomoto{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+div#addcoroto{
+    padding: 10px;
+}
+div.row.containerreceta{
+    border: 5px solid black;
+    border-radius:  15px;
+    background: #ffffffb5;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 15px;
+}
+div#wrapper {
+    background: url('/static/assets/img/bg1.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 700px;
+}
+div.row.title{
+    background:#ffffffb5;
+}
+button.newvalues{
+    background-color: #c78d20;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+button.newvalues:hover{
+    background-color: #b57f1a;
+    border: 2px solid black;
+    box-shadow: 6px 7px 9px 0px #1b1e21b0;
+}
+div.row.toucheme{
+    background-color: black;
+}
+h5.halpmeeee{
+    font-size: 1.15rem;
+}
+div.containersito{
+    border: 5px solid black;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 30px;
+    background: #ffffffb5;
+}
+div.containersito2{
+    border: 5px solid black;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 90px;
+    background: #ffffffb5;
+
+}
+i.fa.fa-bars{
+    color: #efa61d;
+}
+li.supportme{
+    font-weight: bold;
+}
+li.supportme a {
+    color: black;
+}
+li.supportme a:hover {
+    color: #ca8a12;
+}
+@media (min-width:768px){
+    div#wrapper {
+        background: url('/static/assets/img/bg1.jpg');
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100%;
+    }
+    div.row.containerreceta{
+        margin-bottom: 10px;
+    }
+}
+@media (min-width: 350px){
+    div#wrapper {
+        background: url('/static/assets/img/bg1.jpg');
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100%;
+        min-height: 700px;  
+    }
+    div.row.containerreceta{
+        margin-bottom: 10px;
+    }
+}
+.table thead th{
+    border-bottom: 2px solid black !important;
+    border-top: 1px solid black !important;
+}
