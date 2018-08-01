@@ -135,7 +135,9 @@
               console.log(err);
             })
             
-            console.log(this.restricciones)
+            
+            this.restriccionesorted = this.restricciones.sort();
+            console.log(this.restriccionesorted)
             //BUSCADOR DE RECETAS 
             for (let i = 0; i < this.recetas.length; i++) { //conteo por cada receta
                 
