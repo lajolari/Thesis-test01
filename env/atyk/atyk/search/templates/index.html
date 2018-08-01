@@ -28,9 +28,9 @@
                     <div class="col-lg-3 maldito">
                         <div>
                             <h1>Condiciones</h1>
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="Celiaco"><label class="form-check-label" for="Celiaco">Celiaco</label></div>
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="ILactosa"><label class="form-check-label" for="ILactosa">Intolerante a la Lactosa</label></div>
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="AlergicoN"><label class="form-check-label" for="AlergicoN">Alergia a las Nueces</label></div>
+                            <div class="form-check"><input class="form-check-input" v-model="restricciones" value="harina de trigo" type="checkbox" id="Celiaco"><label class="form-check-label" for="Celiaco">Celiaco</label></div>
+                            <div class="form-check"><input class="form-check-input" v-model="restricciones" value="leche" type="checkbox" id="ILactosa"><label class="form-check-label" for="ILactosa">Intolerante a la Lactosa</label></div>
+                            <div class="form-check"><input class="form-check-input" v-model="restricciones" value="mani" type="checkbox" id="AlergicoN"><label class="form-check-label" for="AlergicoN">Alergia a las Nueces</label></div>
                         </div>
                     </div>
                     <div class="col-lg-4 maldito">
@@ -96,8 +96,8 @@
         fukingid: '',
         chichis: [],
         counter: 0,
-        celiaco: 'trigo',
-        categoria: ''
+        restricciones: [],
+        categoria: 'Desayuno'
 
     },
     created: function() {
@@ -135,7 +135,7 @@
               console.log(err);
             })
             
-            console.log(this.categoria)
+            console.log(this.restricciones)
             //BUSCADOR DE RECETAS 
             for (let i = 0; i < this.recetas.length; i++) { //conteo por cada receta
                 
@@ -146,22 +146,36 @@
                 this.fucksorted = this.fuck.sort(); //ordena por orden alfabetico los elementos del array this.fuck
 
                 this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
-                           
+
                 if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
-                    this.counter = 0;  
-                    for (let j = 0; j < this.fucksorted.length; j++) { 
-                       
-                        if (this.fucksorted[j] === this.cualquiersorted[j]) {
-                           this.counter += 1;
-                        } 
+                    if (this.categoria == 'General') {
+                        this.counter = 0;  
+                        for (let j = 0; j < this.fucksorted.length; j++) { 
+                            if (this.fucksorted[j] === this.cualquiersorted[j]) {
+                            this.counter += 1;
+                            } 
+                        }
+                        if (this.counter === this.fuck.length){
+                            this.fukingid = this.recetas[i].id;
+                            this.gotresultp = true;
+                            this.chichis.push(this.recetas[i].nombre);
+                        }
+                    } else {
+                        if (this.categoria === this.recetas[i].tipo) {
+                            this.counter = 0;  
+                            for (let j = 0; j < this.fucksorted.length; j++) { 
+                                if (this.fucksorted[j] === this.cualquiersorted[j]) {
+                                    this.counter += 1;
+                                } 
+                            }
+                            if (this.counter === this.fuck.length){
+                                this.fukingid = this.recetas[i].id;
+                                this.gotresultp = true;
+                                this.chichis.push(this.recetas[i].nombre);
+                            }
+                        }
                     }
-                    if (this.counter === this.fuck.length){
-                        
-                        this.fukingid = this.recetas[i].id;
-                        this.gotresultp = true;
-                        this.chichis.push(this.recetas[i].nombre);
-                       
-                    }
+                    
                    
                     
                     
