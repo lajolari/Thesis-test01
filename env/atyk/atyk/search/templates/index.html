@@ -7,7 +7,7 @@
                         <div>
                             <!-- <input v-model="input.ingrd" /> -->
                             <h1>Ingredientes</h1>
-                            <input v-model="pared" type="text-area" @focus="showMessage()">
+                            <input v-model="pared" type="text-area" @focus="showMessage()" >
                             <input id="lleva" type="hidden">                          
 
                             <!-- <ul>
@@ -36,8 +36,8 @@
                     <div class="col-lg-4 maldito">
                         <div>
                             <h1>Categoría</h1>
-                            <select>
-                                <optgroup label="Categorias">
+                            <select v-model="categoria">
+                                <optgroup label="Categorias" >
                                     <option value="Desayuno" selected="">Desayuno</option>
                                     <option value="Almuerzo">Almuerzo</option>
                                     <option value="Cena">Cena</option>
@@ -97,7 +97,7 @@
         chichis: [],
         counter: 0,
         celiaco: 'trigo',
-        
+        categoria: ''
 
     },
     created: function() {
@@ -106,6 +106,9 @@
     methods: {
         showMessage() {
             this.focus = true;
+            if (this.gotresultp == true) {
+                this.chichis = [];
+            }
         },
         mandarria() {
             document.getElementById("lleva").value = this.pared; //obtengo los valores del input "lleva"
@@ -132,40 +135,36 @@
               console.log(err);
             })
             
-            
+            console.log(this.categoria)
+            //BUSCADOR DE RECETAS 
             for (let i = 0; i < this.recetas.length; i++) { //conteo por cada receta
                 
                 this.otraopcion = this.recetas[i].ingredientes; //guardo en esta variable, el array de ingredientes en la primera posicion de recetas.
-
+                
                 this.fuck = this.otraopcion.split(", "); //divide el array de ingredientes, separados por coma (,)
 
                 this.fucksorted = this.fuck.sort(); //ordena por orden alfabetico los elementos del array this.fuck
 
                 this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
-
-                               
-                if (this.fuck.length === $cualquier.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
-                    
+                           
+                if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
+                    this.counter = 0;  
                     for (let j = 0; j < this.fucksorted.length; j++) { 
-                        
+                       
                         if (this.fucksorted[j] === this.cualquiersorted[j]) {
                            this.counter += 1;
                         } 
                     }
                     if (this.counter === this.fuck.length){
-                        this.recetaSelect = this.recetas[i].nombre;
+                        
                         this.fukingid = this.recetas[i].id;
                         this.gotresultp = true;
-                        // 
-                    
-                    } else {
-                        this.gotresultn = true;
-                        console.log('BUUUUU :(')
+                        this.chichis.push(this.recetas[i].nombre);
+                       
                     }
-                    this.chichis.push(this.recetas[i].nombre);
-                    console.log('identificador del for: ', i)
-                    console.log('nombre de la receta, puro', this.recetas[i].nombre)
-                    console.log('nombre de la receta, corto', this.recetaSelect)
+                   
+                    
+                    
                 } 
                 // console.log(this.recetas[i].nombre)
                 
