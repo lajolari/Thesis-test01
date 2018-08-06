@@ -97,7 +97,8 @@
         chichis: [],
         counter: 0,
         restricciones: [],
-        categoria: 'Desayuno'
+        categoria: 'Desayuno',
+        subreceta: []
 
     },
     created: function() {
@@ -150,22 +151,24 @@
                 this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
 
                 if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
-                    if (this.categoria == 'General') {
+                    if (this.categoria == 'General') { // filtro para opcion "general"
                         this.counter = 0;  
-                        for (let j = 0; j < this.fucksorted.length; j++) { 
+                        for (let j = 0; j < this.fucksorted.length; j++) { //hace el proceso sin problemas, normal
                             if (this.fucksorted[j] === this.cualquiersorted[j]) {
                             this.counter += 1;
-                            } 
+                            } // else {
+                                // 
+                           // } 
                         }
                         if (this.counter === this.fuck.length){
                             this.fukingid = this.recetas[i].id;
                             this.gotresultp = true;
                             this.chichis.push(this.recetas[i].nombre);
                         }
-                    } else {
-                        if (this.categoria === this.recetas[i].tipo) {
+                    } else { // Cuando no es general, evalua la categoria mem
+                        if (this.categoria === this.recetas[i].tipo) { //evalua la categoria y toma solo los elementos con el mismo tipo de receta
                             this.counter = 0;  
-                            for (let j = 0; j < this.fucksorted.length; j++) { 
+                            for (let j = 0; j < this.fucksorted.length; j++) { //proceso normal
                                 if (this.fucksorted[j] === this.cualquiersorted[j]) {
                                     this.counter += 1;
                                 } 
@@ -175,7 +178,7 @@
                                 this.gotresultp = true;
                                 this.chichis.push(this.recetas[i].nombre);
                             }
-                        }
+                        } 
                     }
                     
                    

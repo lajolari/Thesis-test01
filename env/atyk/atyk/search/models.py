@@ -23,7 +23,7 @@ class Receta(models.Model):
 
     ingredientes = models.TextField(max_length=1000) 
 
-    preparacion = models.TextField(max_length=1000, help_text="Ingrese la preparacion")
+    preparacion = models.TextField(max_length=5000, help_text="Ingrese la preparacion")
 
     tipo = models.CharField(max_length=20, help_text="Ingrese un tipo de Receta", default='Desayuno' )
 
