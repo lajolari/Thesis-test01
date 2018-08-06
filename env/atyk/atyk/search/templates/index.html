@@ -163,7 +163,9 @@
                     
                     this.fuck = this.otraopcion.split(", "); //divide el array de ingredientes, separados por coma (,)
 
+                    this.fucksorted = this.fuck.sort(); //ordena por orden alfabetico los elementos del array this.fuck
 
+                    this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
 
                 if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
                     if (this.categoria == 'General') { // filtro para opcion "general"
@@ -182,10 +184,6 @@
                         }
                     } else { // Cuando no es general, evalua la categoria mem
                         if (this.categoria === this.recetas[i].tipo) { //evalua la categoria y toma solo los elementos con el mismo tipo de receta
-=======
-                    if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
-                        if (this.categoria == 'General') {
->>>>>>> 9de81f1b8fab14cbadf335ceff898297323087d6
                             this.counter = 0;  
                             for (let j = 0; j < this.fucksorted.length; j++) { //proceso normal
                                 if (this.fucksorted[j] === this.cualquiersorted[j]) {
@@ -202,35 +200,11 @@
                                 this.gotresultp = true;
                                 this.chichis.push(this.recetas[i].nombre);
                             }
-<<<<<<< HEAD
                         } 
                     }
                     
                    
                     
-=======
-                        } else {
-                            if (this.categoria === this.recetas[i].tipo) {
-                                this.counter = 0;  
-                                for (let j = 0; j < this.fucksorted.length; j++) { 
-                                    if (this.fucksorted[j] === this.cualquiersorted[j]) {
-                                        if (this.restriccionesorted[j] === this.fucksorted[j]) {
-                                            console.log('hubo coincidencia, aplica restricción')
-                                        } else {
-                                            this.counter += 1;
-                                        }
-                                    } 
-                                }
-                                if (this.counter === this.fuck.length){
-                                    this.fukingid = this.recetas[i].id;
-                                    this.gotresultp = true;
-                                    this.chichis.push(this.recetas[i].nombre);
-                                }
-                            }
-                        }
-                    } 
-                    // console.log(this.recetas[i].nombre)
->>>>>>> 9de81f1b8fab14cbadf335ceff898297323087d6
                     
                 } 
         }
