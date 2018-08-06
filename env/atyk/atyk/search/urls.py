@@ -10,4 +10,5 @@ urlpatterns = [
 ]
 urlpatterns += [   
     url(r'^addrecetas/$', views.AddRecetasView.as_view(), name='addrecetas'),
+    url(r'^addingredientes/$', views.AddIngredientesView.as_view(), name='addingredientes'),
 ]

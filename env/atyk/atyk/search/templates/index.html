@@ -28,7 +28,7 @@
                     <div class="col-lg-3 maldito">
                         <div>
                             <h1>Condiciones</h1>
-                            <div class="form-check"><input class="form-check-input" v-model="restricciones" value="harina de trigo" type="checkbox" id="Celiaco"><label class="form-check-label" for="Celiaco">Celiaco</label></div>
+                            <div class="form-check"><input class="form-check-input" v-model="restricciones" value="pasta" type="checkbox" id="Celiaco"><label class="form-check-label" for="Celiaco">Celiaco</label></div>
                             <div class="form-check"><input class="form-check-input" v-model="restricciones" value="leche" type="checkbox" id="ILactosa"><label class="form-check-label" for="ILactosa">Intolerante a la Lactosa</label></div>
                             <div class="form-check"><input class="form-check-input" v-model="restricciones" value="mani" type="checkbox" id="AlergicoN"><label class="form-check-label" for="AlergicoN">Alergia a las Nueces</label></div>
                         </div>
@@ -83,6 +83,7 @@
         recetas: [],
         loading: true,
         currentReceta: {},
+        ingrediente_list: [],
         message: null,
         newReceta: { 'nombre': null, 'ingredientes':null, 'preparacion': null, 'tiempo_preparacion':null, 'metodo_coccion':null },
         rows: [],
@@ -120,35 +121,50 @@
         },
         getRecetas: function($cualquier) { //recibo el parametro this.tumama y lo rebautizo "$cualquier"
     
-        let api_url = '/api/addreceta/';
-        if(this.search_term!==''||this.search_term!==null) {
-          api_url = `/api/addreceta/?search=${this.search_term}`
-        }
-        this.loading = true;
-        this.$http.get(api_url)
-            .then((response) => {
-              this.recetas = response.data;
-              this.loading = false;
-                
-            })
-            .catch((err) => {
-              this.loading = false;
-              console.log(err);
-            })
-            
-            
-            this.restriccionesorted = this.restricciones.sort();
-            console.log(this.restriccionesorted)
-            //BUSCADOR DE RECETAS 
-            for (let i = 0; i < this.recetas.length; i++) { //conteo por cada receta
-                
-                this.otraopcion = this.recetas[i].ingredientes; //guardo en esta variable, el array de ingredientes en la primera posicion de recetas.
+            let api_url2 = '/api/addingrediente/';
+            if(this.search_term!==''||this.search_term!==null) {
+              api_url2 = `/api/addingrediente/?search=${this.search_term}`
+            }
+            this.loading = true;
+            this.$http.get(api_url2)
+                .then((response) => {
+                  this.ingrediente_list = response.data;
+                  this.loading = false;
+                    
+                })
+                .catch((err) => {
+                  this.loading = false;
+                  console.log(err);
+                })
+            console.log('halloo', this.ingrediente_list)
+
+            let api_url1 = '/api/addreceta/';
+            if(this.search_term!==''||this.search_term!==null) {
+            api_url1 = `/api/addreceta/?search=${this.search_term}`
+            }
+            this.loading = true;
+            this.$http.get(api_url1)
+                .then((response) => {
+                this.recetas = response.data;
+                this.loading = false;
+                    
+                })
+                .catch((err) => {
+                this.loading = false;
+                console.log(err);
+                })
                 
                 this.fuck = this.otraopcion.split(", "); //divide el array de ingredientes, separados por coma (,)
+                this.restriccionesorted = this.restricciones.sort();
+                console.log(this.restriccionesorted)
+                //BUSCADOR DE RECETAS 
+                for (let i = 0; i < this.recetas.length; i++) { //conteo por cada receta
+                    
+                    this.otraopcion = this.recetas[i].ingredientes; //guardo en esta variable, el array de ingredientes en la primera posicion de recetas.
+                    
+                    this.fuck = this.otraopcion.split(", "); //divide el array de ingredientes, separados por coma (,)
 
-                this.fucksorted = this.fuck.sort(); //ordena por orden alfabetico los elementos del array this.fuck
 
-                this.cualquiersorted = $cualquier.sort(); //organiza el array de ingredientes que introduce el usuario
 
                 if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
                     if (this.categoria == 'General') { // filtro para opcion "general"
@@ -167,10 +183,19 @@
                         }
                     } else { // Cuando no es general, evalua la categoria mem
                         if (this.categoria === this.recetas[i].tipo) { //evalua la categoria y toma solo los elementos con el mismo tipo de receta
+=======
+                    if (this.fucksorted.length === this.cualquiersorted.length) { //cuando encuentre que los arrays tienen exactamente la misma longitud de caracteres, se parara
+                        if (this.categoria == 'General') {
+>>>>>>> 9de81f1b8fab14cbadf335ceff898297323087d6
                             this.counter = 0;  
                             for (let j = 0; j < this.fucksorted.length; j++) { //proceso normal
                                 if (this.fucksorted[j] === this.cualquiersorted[j]) {
-                                    this.counter += 1;
+                                    if (this.restriccionesorted[j] === this.fucksorted[j]) {
+                                        console.log('hubo coincidencia, aplica restricción')
+                                    } else {
+                                        this.counter += 1;
+                                    }
+                                    
                                 } 
                             }
                             if (this.counter === this.fuck.length){
@@ -178,16 +203,37 @@
                                 this.gotresultp = true;
                                 this.chichis.push(this.recetas[i].nombre);
                             }
+<<<<<<< HEAD
                         } 
                     }
                     
                    
                     
+=======
+                        } else {
+                            if (this.categoria === this.recetas[i].tipo) {
+                                this.counter = 0;  
+                                for (let j = 0; j < this.fucksorted.length; j++) { 
+                                    if (this.fucksorted[j] === this.cualquiersorted[j]) {
+                                        if (this.restriccionesorted[j] === this.fucksorted[j]) {
+                                            console.log('hubo coincidencia, aplica restricción')
+                                        } else {
+                                            this.counter += 1;
+                                        }
+                                    } 
+                                }
+                                if (this.counter === this.fuck.length){
+                                    this.fukingid = this.recetas[i].id;
+                                    this.gotresultp = true;
+                                    this.chichis.push(this.recetas[i].nombre);
+                                }
+                            }
+                        }
+                    } 
+                    // console.log(this.recetas[i].nombre)
+>>>>>>> 9de81f1b8fab14cbadf335ceff898297323087d6
                     
                 } 
-                // console.log(this.recetas[i].nombre)
-                
-            } 
         }
     }
   });

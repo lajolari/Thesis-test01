@@ -39,3 +39,14 @@ class AddRecetasView(LoginRequiredMixin,generic.ListView):
 class RecetaDetailView(generic.DetailView):
     model = Receta
     template_name = 'search/receta_detalle.html'
+
+class AddIngredientesView(LoginRequiredMixin,generic.ListView):
+    """
+    Generic class-based view listing books on loan to current user. 
+    """
+    model = Ingrediente
+    template_name ='search/addingredientes.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        return Ingrediente.objects.filter(nombre=self.request.user)   

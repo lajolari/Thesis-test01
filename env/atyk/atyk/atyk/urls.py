@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('addreceta', TemplateView.as_view(template_name='addrecetas.html')),
+    path('addingrediente', TemplateView.as_view(template_name='addingredientes.html')),
 ]
 urlpatterns += [
     path('search/', include('search.urls')),

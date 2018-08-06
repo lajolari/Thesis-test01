@@ -57,11 +57,11 @@ class Ingrediente(models.Model):
         """
         return self.nombre
 
-    # def get_absolute_url(self):
-    #     """
-    #     Devuelve el URL a una instancia particular de Ingrediente
-    #     """
-    #     return reverse('detalle-ingrediente', args=[str(self.id)])
+    def get_absolute_url(self):
+        """
+        Devuelve el URL a una instancia particular de Ingrediente
+        """
+        return reverse('detalle-ingrediente', args=[str(self.id)])
 
 class RecipeStep(models.Model):
     class Meta:
